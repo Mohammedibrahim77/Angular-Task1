@@ -1,0 +1,30 @@
+<div class="todo-card">
+    <h1 class="todo-title">My to-do list</h1>
+    <div class="input-group">
+        <input type="text" [(ngModel)]="newtask" placeholder="Add a new task" (keyup.enter)="addTask()" class="task-input">
+        <button (click)="addTask()" [disabled]="!newtask.trim()" class="btn btn-add">Add</button>
+    </div>
+
+    <div class="task-list">
+        @for( task of tasks; track $index) {
+        <div class="task-item">
+            <span [class.completed]="task.completed" class="task-title">
+        {{task.title}}
+      </span>
+
+            <div class="task-actions">
+                <button (click)="completeTask(task)" class="btn btn-toggle">{{
+          task.completed ? 'Undo' : 'Complete' }}</button>
+                <button (click)="deleteTask($index)" class="btn btn-delete">Delete</button>
+            </div>
+        </div> }
+    </div>
+
+    <div class="todo-footer">
+        <p class="task-count">Total Tasks: {{ tasks.length }}</p>
+
+        @if (tasks.length > 0 && tasks.every(t => t.completed)) {
+        <p class="all-completed">All tasks completed! 🎉</p>
+        }
+    </div>
+</div>
