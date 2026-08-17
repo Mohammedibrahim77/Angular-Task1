@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { StudentService } from './services/student.service';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [StudentService]
     }).compileComponents();
   });
 
@@ -16,8 +18,9 @@ describe('App', () => {
 
   it('should render title', async () => {
     const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('My to-do list');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Student Management System');
   });
 });

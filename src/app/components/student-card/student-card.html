@@ -1,0 +1,41 @@
+<div class="student-card" [ngClass]="isPassed() ? 'passed' : 'failed'">
+    <div class="card-header">
+        <div class="student-info">
+            <h3 class="student-name">{{ student.name }}</h3>
+            <span class="status-badge" [ngClass]="isPassed() ? 'status-passed' : 'status-failed'">
+        {{ student.status }}
+      </span>
+        </div>
+
+        <div class="card-actions">
+            <button class="btn btn-toggle" (click)="toggleDetails()">
+        {{ showDetails ? 'Hide Details' : 'Toggle Details' }}
+      </button>
+            <button class="btn btn-delete" (click)="onDelete()">Delete</button>
+        </div>
+    </div>
+
+    <div class="card-main">
+        <div class="info-row">
+            <span class="label">Age:</span>
+            <span class="value">{{ student.age }}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">Grade:</span>
+            <span class="value">{{ student.grade }}</span>
+        </div>
+    </div>
+
+    @if (showDetails) {
+    <div class="card-details">
+        <div class="detail-item">
+            <span class="detail-label">Grade Status:</span> @if (student.grade >= 95) {
+            <span class="perf-tag perf-excellent">Excellent</span> } @else if (student.grade >= 80) {
+            <span class="perf-tag perf-very-good">Very Good</span> } @else if (student.grade >= 65) {
+            <span class="perf-tag perf-good">Good</span> } @else if (student.grade >= 50) {
+            <span class="perf-tag perf-pass">Pass</span> } @else {
+            <span class="perf-tag perf-failed">Failed</span> }
+        </div>
+    </div>
+    }
+</div>

@@ -1,0 +1,51 @@
+<div class="list-container">
+    <div class="list-header">
+        <h2>Student Directory</h2>
+        <button class="btn btn-visibility" (click)="toggleListVisibility()">
+      {{ isListVisible ? 'Hide List' : 'Show List' }}
+    </button>
+    </div>
+
+    <div class="summary-bar">
+        <div class="stat-card">
+            <span class="stat-label">Total</span>
+            <span class="stat-value">{{ students.length }}</span>
+        </div>
+        <div class="stat-card stat-passed">
+            <span class="stat-label">Passed</span>
+            <span class="stat-value">{{ totalPassed }}</span>
+        </div>
+        <div class="stat-card stat-failed">
+            <span class="stat-label">Failed</span>
+            <span class="stat-value">{{ totalFailed }}</span>
+        </div>
+    </div>
+
+    @if (isListVisible) {
+    <div class="controls-bar">
+        <div class="search-box">
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Search by student name..." class="search-input" />
+        </div>
+
+        <div class="sort-box">
+            <label for="sortSelect">Sort Grade:</label>
+            <select id="sortSelect" [ngModel]="sortDirection" (ngModelChange)="setSort($event)" class="sort-select">
+        <option value="none">Default</option>
+        <option value="asc">Grade: Low to High</option>
+        <option value="desc">Grade: High to Low</option>
+      </select>
+        </div>
+    </div>
+
+    @if (filteredStudents.length === 0) {
+    <div class="no-students">
+        <p>No Students Found</p>
+    </div>
+    } @else {
+    <div class="students-grid">
+        @for (student of filteredStudents; track student.id) {
+        <app-student-card [student]="student" (delete)="onDeleteStudent($event)"></app-student-card>
+        }
+    </div>
+    } }
+</div>

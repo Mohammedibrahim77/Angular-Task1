@@ -1,33 +1,37 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
-interface Task {
-  title: string;
-  completed: boolean;
-}
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { StudentFormComponent } from './components/student-form/student-form';
+import { StudentListComponent } from './components/student-list/student-list';
+import { StudentService } from './services/student.service';
+import { Student } from './models/student.model';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule],
+  standalone: true,
+  imports: [CommonModule, StudentFormComponent, StudentListComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  newtask ='';
-  
-  tasks:Task[] =[];
-   addTask(){
-    if(this.newtask.trim() === ''){
-      return;
-   }
+export class App implements OnInit {
+  students: Student[] = [];
 
-   this.tasks.push({title:this.newtask, completed:false});
-   this.newtask = '';
-}
-completeTask(task: Task){
-  task.completed = !task.completed;
-}
-deleteTask(index: number){
-  this.tasks.splice(index, 1);
-}
+  constructor(private studentService: StudentService) {}
+
+  ngOnInit(): void {
+    this.loadStudents();
+  }
+
+  loadStudents(): void {
+    this.students = this.studentService.getStudents();
+  }
+
+  onStudentAdded(student: Student): void {
+    this.studentService.addStudent(student);
+    this.loadStudents();
+  }
+
+  onDeleteStudent(id: number): void {
+    this.studentService.deleteStudent(id);
+    this.loadStudents();
+  }
 }
